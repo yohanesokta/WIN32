@@ -1,44 +1,15 @@
-cmake_minimum_required(VERSION 3.25)
-project(PQVIEW VERSION 0.1.0 LANGUAGES C)
+cmake_minimum_required(VERSION 3.10)
 
-# USE C11 Standart
+project(fascode VERSION 1.0 LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-set(CMAKE_C_STANDARD 11)
-set(CMAKE_C_STANDARD_REQUIRED ON)
-
-find_package(PostgreSQL REQUIRED)
-message(STATUS "POSTGRESQL Include Dirs" : ${PostgreSQL_INCLUDE_DIRS})
-message(STATUS "POSTGRESQL Library Dirs" : ${PostgreSQL_LIBRARY_DIRS})
 
 set(SOURCES
-    main.c
+    app.cpp
 )
-
 add_executable(${PROJECT_NAME} WIN32 ${SOURCES})
-
-target_include_directories(${PROJECT_NAME} PRIVATE 
-    ${PostgreSQL_INCLUDE_DIRS}
-)
-
-# Link Library
 target_link_libraries(${PROJECT_NAME} PRIVATE 
-    ${PostgreSQL_LIBRARIES}
     user32
     gdi32
-    comctl32
-    ws2_32
-)
-
-target_compile_definitions(${PROJECT_NAME} PRIVATE WIN32_LEAN_AND_MEAN)
-
-# if(MSVC)
-#     target_compile_options(${PROJECT_NAME} PRIVATE /W4 /WX)
-# else()
-#     target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic -Werror)
-# endif()
-
-# POST-BUILD Message
-
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E echo "Build of ${PROJECT_NAME} v${PROJECT_VERSION} complete."
 )
