@@ -14,13 +14,35 @@ Pola ini disebut **Event-Driven Programming (Pemrograman Berbasis Peristiwa)**. 
 
 Setiap kali pengguna melakukan aksi fisik pada komputer, alur komunikasi berikut terjadi di tingkat sistem operasi:
 
-```mermaid
-flowchart TD
-    A[Hardware: Keyboard / Mouse / Monitor] -->|Sinyal Driver Interrupt| B[Windows OS Kernel]
-    B -->|Bungkus jadi struktur MSG| C[Message Queue Aplikasi Kita]
-    C -->|Diambil oleh GetMessageW| D[Message Loop Aplikasi]
-    D -->|Diterjemahkan & Dikirimkan| E[Window Procedure / WndProc]
-    E -->|Eksekusi switch-case kode kita| F[Tampilan Layar Diperbarui]
+```text
+┌──────────────────────────────────────┐
+│  Hardware: Keyboard / Mouse Monitor  │
+└──────────────────┬───────────────────┘
+                   │  Sinyal Driver Interrupt
+                   ▼
+┌──────────────────────────────────────┐
+│          Windows OS Kernel           │
+└──────────────────┬───────────────────┘
+                   │  Bungkus ke dalam struktur MSG
+                   ▼
+┌──────────────────────────────────────┐
+│     Message Queue Aplikasi Kita      │
+└──────────────────┬───────────────────┘
+                   │  Diambil oleh GetMessageW
+                   ▼
+┌──────────────────────────────────────┐
+│        Message Loop Aplikasi         │
+└──────────────────┬───────────────────┘
+                   │  Translate & DispatchMessageW
+                   ▼
+┌──────────────────────────────────────┐
+│      Window Procedure (WndProc)      │
+└──────────────────┬───────────────────┘
+                   │  Eksekusi switch-case kode kita
+                   ▼
+┌──────────────────────────────────────┐
+│       Tampilan Layar Diperbarui      │
+└──────────────────────────────────────┘
 ```
 
 1. **Hardware Interrupt**: Kamu menekan tombol keyboard atau menggeser mouse. Driver perangkat keras memberi sinyal ke kernel Windows.

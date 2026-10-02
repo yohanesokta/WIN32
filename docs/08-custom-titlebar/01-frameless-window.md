@@ -32,11 +32,13 @@ Cara yang digunakan oleh software profesional kelas dunia adalah:
 1. **Tetap daftarkan style `WS_OVERLAPPEDWINDOW`** saat memanggil `CreateWindowExW`.
 2. **Cegat pesan `WM_NCCALCSIZE`** di dalam `WindowProc`!
 
-```mermaid
-flowchart TD
-    A[Windows mengirim WM_NCCALCSIZE] --> B{Apakah wParam == TRUE?}
-    B -->|DefWindowProc default| C[Windows menyisakan ruang untuk title bar & border standar]
-    B -->|Kita Return 0 Langsung!| D[Client Area diperluas 100% menutupi seluruh jendela!]
+```text
+Windows mengirim WM_NCCALCSIZE
+              │
+              ▼
+   Apakah wParam == TRUE?
+   ├── [DefWindowProc Default] ──> Sisakan ruang untuk title bar & border standar
+   └── [Kita Return 0 Langsung] ──> Client Area diperluas 100% menutupi seluruh jendela!
 ```
 
 ### Implementasi Kode

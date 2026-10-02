@@ -10,16 +10,40 @@ Sebuah aplikasi desktop dashboard modern berukuran biner hanya **~100 KB** denga
 
 ## Fitur-Fitur Utama yang Terintegrasi
 
-```mermaid
-flowchart TD
-    subgraph Arsitektur Aplikasi Final
-    A[Per-Monitor V2 DPI Awareness] --> B[Window Class WNDCLASSEXW]
-    B --> C[Custom Frameless Title Bar: WM_NCCALCSIZE]
-    C --> D[DWM Native Shadow & Immersive Dark Mode]
-    D --> E[Hit Testing Cerdas: WM_NCHITTEST]
-    E --> F[Double Buffering 60 FPS: CreateCompatibleDC + BitBlt]
-    F --> G[Resource Compiler: app.rc Metadata Exe]
-    end
+```text
+┌────────────────────────────────────────────────────────┐
+│             Per-Monitor V2 DPI Awareness               │
+└───────────────────────────┬────────────────────────────┘
+                            │
+                            ▼
+┌────────────────────────────────────────────────────────┐
+│               Window Class (WNDCLASSEXW)               │
+└───────────────────────────┬────────────────────────────┘
+                            │
+                            ▼
+┌────────────────────────────────────────────────────────┐
+│        Custom Frameless Title Bar (WM_NCCALCSIZE)      │
+└───────────────────────────┬────────────────────────────┘
+                            │
+                            ▼
+┌────────────────────────────────────────────────────────┐
+│        DWM Native Drop Shadow & Immersive Dark Mode    │
+└───────────────────────────┬────────────────────────────┘
+                            │
+                            ▼
+┌────────────────────────────────────────────────────────┐
+│           Hit Testing Cerdas (WM_NCHITTEST)            │
+└───────────────────────────┬────────────────────────────┘
+                            │
+                            ▼
+┌────────────────────────────────────────────────────────┐
+│       Double Buffering 60 FPS (CreateCompatibleDC)     │
+└───────────────────────────┬────────────────────────────┘
+                            │
+                            ▼
+┌────────────────────────────────────────────────────────┐
+│      Resource Compiler: app.rc Metadata Executable     │
+└────────────────────────────────────────────────────────┘
 ```
 
 1. **Struktur Project & Build Terminal**: Dikompilasi menggunakan CMake modern dan compiler MSVC murni.

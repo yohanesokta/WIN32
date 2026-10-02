@@ -26,10 +26,16 @@ Bayangkan kamu menitipkan koper di tempat penitipan bandara:
 4. Nomor karcis #42 ini adalah **HANDLE**.
 5. Kapan pun kamu ingin mengambil, memeriksa, atau memindahkan kopermu, kamu cukup menunjukkan nomor #42 tersebut ke petugas.
 
-```mermaid
-flowchart LR
-    A[Aplikasi Kita] -->|Beri perintah dengan HWND #42| B[Kernel Windows]
-    B -->|Mencari objek di tabel internal| C[Struktur Window Fisik di Memori Kernel]
+```text
+┌────────────────┐      Beri perintah dengan HWND #42      ┌────────────────┐
+│  Aplikasi Kita │ ──────────────────────────────────────> │ Kernel Windows │
+└────────────────┘                                         └───────┬────────┘
+                                                                   │
+                                                                   │ Mencari objek di tabel internal
+                                                                   ▼
+                                                   ┌────────────────────────────────┐
+                                                   │ Struktur Window Fisik di RAM   │
+                                                   └────────────────────────────────┘
 ```
 
 ### Mengapa Windows Menggunakan Handle?

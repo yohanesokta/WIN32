@@ -27,14 +27,14 @@ Bayangkan kamu sedang melukis di atas kertas:
 * **Pena (`HPEN`)**: Menggambar garis luar (*outline* atau kontur).
 * **Kuas (`HBRUSH`)**: Mengisi warna bagian dalam suatu bangun datar (*fill*).
 
-```mermaid
-flowchart LR
-    subgraph GDI Tools
-    A[HPEN: Garis & Border Luar]
-    B[HBRUSH: Warna Isi Bidang]
-    end
-    A --> C[Hasil Bentuk Grafis]
-    B --> C
+```text
+┌────────────────────────────────┐
+│   HPEN (Garis & Border Luar)   │ ───┐
+└────────────────────────────────┘    │
+                                      ├───> [ Hasil Bentuk Grafis Jadi ]
+┌────────────────────────────────┐    │
+│    HBRUSH (Warna Isi Bidang)   │ ───┘
+└────────────────────────────────┘
 ```
 
 ### Cara Membuat Pena (`CreatePen`)

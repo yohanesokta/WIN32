@@ -92,23 +92,21 @@ Fungsi **`DefWindowProcW`** ("Default Window Procedure") adalah implementasi baw
 
 Banyak pemula bingung membedakan antara `WM_CLOSE`, `WM_DESTROY`, dan `PostQuitMessage`. Berikut urutan peristiwa saat pengguna mengklik tombol silang [X]:
 
-```mermaid
-sequenceDiagram
-    autonumber
-    actor User as Pengguna
-    participant OS as Sistem Windows
-    participant WP as WindowProc
-    participant ML as Message Loop
-
-    User->>OS: Klik Tombol Silang [X]
-    OS->>WP: Kirim pesan WM_CLOSE
-    Note over WP: Kesempatan konfirmasi:<br>"Apakah ingin menyimpan data?"
-    WP->>OS: Panggil DestroyWindow(hwnd) atau lewatkan ke DefWindowProc
-    OS->>WP: Kirim pesan WM_DESTROY
-    WP->>OS: Panggil PostQuitMessage(0)
-    Note over OS: Masukkan WM_QUIT ke Message Queue
-    OS->>ML: GetMessageW menerima WM_QUIT
-    Note over ML: GetMessageW mengembalikan 0<br>Loop Berhenti!
+```text
+Pengguna                 Sistem Windows               WindowProc             Message Loop
+   │                           │                           │                      │
+   │── Klik Silang [X] ───────>│                           │                      │
+   │                           │── Kirim WM_CLOSE ────────>│                      │
+   │                           │                           │ (Cek Simpan Data)    │
+   │                           │<─ Panggil DestroyWindow ──│                      │
+   │                           │                           │                      │
+   │                           │── Kirim WM_DESTROY ──────>│                      │
+   │                           │                           │── PostQuitMessage ──>│
+   │                           │                           │                      │
+   │                           │                           │  GetMessage terima   │
+   │                           │                           │  WM_QUIT (return 0)  │
+   │                           │                           │                      ▼
+   │                           │                           │              Loop Berhenti!
 ```
 
 ### Apa yang Terjadi Jika Kita Lupa `PostQuitMessage(0)`?

@@ -34,14 +34,21 @@ Kita membuat kanvas bayangan tak terlihat di dalam memori RAM (*Off-Screen Memor
 1. Seluruh proses penghapusan latar dan penggambaran bentuk dilakukan di kanvas bayangan tersebut di balik layar.
 2. Setelah gambar frame jadi 100%, seluruh gambar dipindahkan ke layar monitor dalam satu kali operasi penyalinan blok memori yang sangat cepat (*Blit* / `BitBlt`).
 
-```mermaid
-flowchart TD
-    subgraph Memori RAM Tersembunyi (Off-screen)
-    A[CreateCompatibleDC] --> B[CreateCompatibleBitmap]
-    B --> C[Hapus Latar Belakang di Memory DC]
-    C --> D[Gambar Objek & Teks di Memory DC]
-    end
-    D -->|BitBlt dalam 0.0001 detik| E[Layar Monitor Fisik (HDC Asli)]
+```text
+┌────────────────────────────────────────────────────────────┐
+│      Memori RAM Tersembunyi (Off-screen Memory Buffer)     │
+│                                                            │
+│  [CreateCompatibleDC] ➔ [CreateCompatibleBitmap]           │
+│                            │                               │
+│                            ▼                               │
+│  [Hapus Latar Belakang] ➔ [Gambar Objek & Teks di Memori]  │
+└────────────────────────────┬───────────────────────────────┘
+                             │
+                             │ BitBlt dalam 0.0001 detik
+                             ▼
+┌────────────────────────────────────────────────────────────┐
+│              Layar Monitor Fisik (HDC Asli)                │
+└────────────────────────────────────────────────────────────┘
 ```
 
 ---

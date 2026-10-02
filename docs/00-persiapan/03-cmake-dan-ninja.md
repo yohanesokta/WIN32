@@ -78,10 +78,16 @@ Jika kamu ingin membuat aplikasi desktop yang bersih tanpa jendela command promp
 
 CMake bekerja dengan dua tahap sederhana:
 
-```mermaid
-flowchart LR
-    A[Source Code + CMakeLists.txt] -->|cmake -S . -B build| B[Build Directory]
-    B -->|cmake --build build| C[Executable .exe]
+```text
+┌─────────────────────────────┐      cmake -S . -B build      ┌─────────────────────────────┐
+│ Source Code + CMakeLists.txt │ ───────────────────────────> │ Build Directory (Solusi MS) │
+└─────────────────────────────┘                               └──────────────┬──────────────┘
+                                                                             │
+                                                                             │ cmake --build build
+                                                                             ▼
+                                                              ┌─────────────────────────────┐
+                                                              │   File Executable (.exe)    │
+                                                              └─────────────────────────────┘
 ```
 
 ### Tahap 1: Konfigurasi (*Generate Build Files*)

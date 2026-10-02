@@ -10,12 +10,24 @@ Pada bab ini, kita akan mempelajari cara melacak pergerakan kursor mouse di dala
 
 Setiap kali kursor mouse bergerak atau tombol mouse ditekan di atas area jendela kita (*client area*), Windows mengirimkan pesan dengan koordinat piksel yang dikemas di dalam parameter `lParam`.
 
-```mermaid
-flowchart LR
-    A[Gerakan / Klik Mouse] --> B[Pesan Windows: WM_MOUSEMOVE / WM_LBUTTONDOWN]
-    B --> C[lParam 64-bit]
-    C -->|GET_X_LPARAM| D[Koordinat X Relatif ke Client Area]
-    C -->|GET_Y_LPARAM| E[Koordinat Y Relatif ke Client Area]
+```text
+┌──────────────────────┐
+│ Gerakan / Klik Mouse │
+└──────────┬───────────┘
+           │
+           ▼
+┌──────────────────────────────────────────────┐
+│ Pesan Windows: WM_MOUSEMOVE / WM_LBUTTONDOWN │
+└──────────────────────┬───────────────────────┘
+                       │
+                       ▼
+┌──────────────────────────────────────────────┐
+│               lParam 64-bit                  │
+└──────────────┬───────────────────────────────┘
+               │
+               ├─ GET_X_LPARAM ──> Koordinat X Relatif ke Client Area
+               │
+               └─ GET_Y_LPARAM ──> Koordinat Y Relatif ke Client Area
 ```
 
 ---

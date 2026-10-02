@@ -10,13 +10,8 @@ Pada bab ini, kita akan mempelajari cara membuat objek bergerak dan beranimasi d
 
 Sebuah animasi pada dasarnya adalah ilusi mata yang dihasilkan dari menggambar serangkaian gambar diam (*frames*) secara berulang-ulang dengan sangat cepat.
 
-```mermaid
-flowchart LR
-    A[Timer Berdetak: 16ms] --> B[Pesan WM_TIMER]
-    B --> C[Perbarui Posisi Objek: x += vx]
-    C --> D[Panggil InvalidateRect]
-    D --> E[Pesan WM_PAINT]
-    E --> F[Gambar Frame Baru di Layar]
+```text
+[Timer Berdetak: 16ms] ➔ [Pesan WM_TIMER] ➔ [Posisi: x += vx] ➔ [InvalidateRect] ➔ [WM_PAINT] ➔ [Gambar Frame Layar]
 ```
 
 Untuk mencapai animasi yang mulus secepat **60 Frame Per Detik (FPS)**:

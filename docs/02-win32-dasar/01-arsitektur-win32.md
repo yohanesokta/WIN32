@@ -10,13 +10,35 @@ Sebelum menulis baris kode program, kita harus melihat "gambaran besar" (*big pi
 
 Setiap aplikasi GUI Windows murni, dari aplikasi Notepad sederhana hingga game kompleks, selalu memiliki 4 tahapan siklus hidup berikut:
 
-```mermaid
-flowchart TD
-    A[1. Registrasi Window Class<br>RegisterClassExW] --> B[2. Instansiasi Jendela<br>CreateWindowExW]
-    B --> C[3. Tampilkan Jendela di Layar<br>ShowWindow & UpdateWindow]
-    C --> D[4. Message Loop<br>GetMessage ➔ Translate ➔ Dispatch]
-    D -->|Event Mouse, Keyboard, Paint, Close| E[Window Procedure<br>WndProc]
-    E -->|Jika WM_DESTROY / PostQuitMessage| F[Aplikasi Selesai & Keluar]
+```text
+┌─────────────────────────────────────────┐
+│ 1. Registrasi Window Class              │  (RegisterClassExW)
+└────────────────────┬────────────────────┘
+                     │
+                     ▼
+┌─────────────────────────────────────────┐
+│ 2. Instansiasi Jendela                  │  (CreateWindowExW)
+└────────────────────┬────────────────────┘
+                     │
+                     ▼
+┌─────────────────────────────────────────┐
+│ 3. Tampilkan Jendela di Layar           │  (ShowWindow & UpdateWindow)
+└────────────────────┬────────────────────┘
+                     │
+                     ▼
+┌─────────────────────────────────────────┐
+│ 4. Message Loop                         │  (GetMessage ➔ Translate ➔ Dispatch)
+└────────────────────┬────────────────────┘
+                     │  Event Mouse, Keyboard, Paint, Close
+                     ▼
+┌─────────────────────────────────────────┐
+│ Window Procedure (WndProc)              │  (Fungsi Pemroses Event)
+└────────────────────┬────────────────────┘
+                     │  WM_DESTROY ➔ PostQuitMessage(0)
+                     ▼
+┌─────────────────────────────────────────┐
+│ Aplikasi Selesai & Keluar Bersih        │
+└─────────────────────────────────────────┘
 ```
 
 ### Tahap 1: Mendaftarkan Cetak Biru Jendela (*Window Class*)

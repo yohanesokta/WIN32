@@ -10,14 +10,30 @@ Pada bab ini, kita akan mempelajari bagaimana menangkap ketukan tombol keyboard 
 
 Windows membagi input keyboard menjadi dua lapisan pesan yang berbeda:
 
-```mermaid
-flowchart TD
-    A[Pengguna menekan tombol fisik di Keyboard] --> B[Pesan Keystroke: WM_KEYDOWN]
-    B -->|wParam berisi Virtual Key Code misal VK_SPACE| C[Logika Game / Kontrol Shortcut]
-    B --> D[TranslateMessage di Message Loop]
-    D -->|Menerjemahkan dengan mempertimbangkan Shift / CapsLock| E[Pesan Karakter: WM_CHAR]
-    E -->|wParam berisi karakter Unicode wchar_t| F[Input Teks / Textbox]
-    A -.->|Saat tombol dilepas| G[Pesan Keystroke: WM_KEYUP]
+```text
+┌──────────────────────────────────────────────┐
+│  Pengguna Menekan Tombol Fisik di Keyboard   │
+└──────────────────────┬───────────────────────┘
+                       │
+                       ▼
+┌──────────────────────────────────────────────┐
+│         Pesan Keystroke: WM_KEYDOWN          │
+└──────────────┬───────────────────────────────┘
+               │                               
+               ├─ wParam = Virtual Key (VK_*) ──> Logika Game & Shortcut
+               │                               
+               ▼
+┌──────────────────────────────────────────────┐
+│      TranslateMessage di Message Loop        │
+└──────────────┬───────────────────────────────┘
+               │  Mempertimbangkan Shift & CapsLock
+               ▼
+┌──────────────────────────────────────────────┐
+│          Pesan Karakter: WM_CHAR             │
+└──────────────┬───────────────────────────────┘
+               │
+               ▼
+   Input Teks & Textbox (wchar_t)
 ```
 
 1. **Pesan Keystroke (`WM_KEYDOWN` dan `WM_KEYUP`)**: Memberitahu status fisik tombol keyboard. `wParam` berisi kode tombol virtual (**Virtual-Key Codes** atau `VK_*`).

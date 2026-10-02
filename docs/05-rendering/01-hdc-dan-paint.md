@@ -30,18 +30,17 @@ Pesan `WM_PAINT` dikirimkan oleh Windows setiap kali ada bagian dari jendela yan
 3. Jendela lain yang sebelumnya menutupi jendela kita digeser atau ditutup.
 4. Aplikasi kita sendiri secara sengaja meminta penggambaran ulang melalui fungsi `InvalidateRect`.
 
-```mermaid
-sequenceDiagram
-    participant OS as Windows
-    participant WP as WindowProc
-    participant HDC as Device Context
-
-    OS->>WP: Kirim WM_PAINT
-    WP->>OS: Panggil BeginPaint(hwnd, &ps)
-    OS-->>WP: Kembalikan HDC yang siap digambar
-    Note over WP: Eksekusi TextOut, Rectangle, Ellipse...
-    WP->>OS: Panggil EndPaint(hwnd, &ps)
-    Note over OS: Wilayah jendela dinyatakan bersih (Valid)
+```text
+Windows OS                         WindowProc                     Device Context (HDC)
+    │                                  │                                   │
+    │── Kirim pesan WM_PAINT ─────────>│                                   │
+    │                                  │── Panggil BeginPaint(hwnd, &ps) ─>│
+    │                                  │<─ Kembalikan HDC yang valid ──────│
+    │                                  │                                   │
+    │                                  │   (Eksekusi TextOut, Bentuk dll)  │
+    │                                  │                                   │
+    │                                  │── Panggil EndPaint(hwnd, &ps) ───>│
+    │<─ Wilayah dinyatakan bersih ─────│                                   │
 ```
 
 ---

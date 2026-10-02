@@ -12,18 +12,26 @@ Untuk menyelesaikan masalah ini selamanya, Microsoft memperkenalkan **Desktop Wi
 
 DWM adalah sebuah **Compositing Window Manager** berbasis DirectX:
 
-```mermaid
-flowchart TD
-    subgraph Proses Aplikasi Pengguna
-    A[Aplikasi Notepad] -->|Render ke Buffer RAM/VRAM Sendiri| B[Off-screen Surface A]
-    C[Aplikasi Kita] -->|Render ke Buffer RAM/VRAM Sendiri| D[Off-screen Surface B]
-    end
-
-    subgraph Desktop Window Manager (DWM Engine)
-    B --> E[DWM Compositor GPU]
-    D --> E
-    E -->|Terapkan Drop Shadow, Animasi Transisi, Glass/Mica| F[Framebuffer Layar Monitor Utama]
-    end
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│                      Proses Aplikasi Pengguna                          │
+│                                                                        │
+│  [Aplikasi Notepad]  ──────>  Render ke Off-screen Surface A (RAM/VRAM)│
+│  [Aplikasi Win32 Kita] ────>  Render ke Off-screen Surface B (RAM/VRAM)│
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                 Desktop Window Manager (DWM Engine)                    │
+│                                                                        │
+│   Komposisi GPU: Menggabungkan Surface A + B, menambahkan Drop Shadow, │
+│   sudut membulat (Rounded Corners), Dark Mode, dan animasi transisi    │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                    Framebuffer Layar Monitor Utama                     │
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
 1. **Isolasi Buffer**: Setiap jendela tidak lagi menggambar langsung ke layar fisik. Mereka menggambar ke buffer permukaan *off-screen* masing-masing.
