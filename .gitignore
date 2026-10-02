@@ -1,2 +1,26 @@
-build/*
-*.json
+# Build directories
+build/
+build*/
+bin/
+out/
+.vs/
+*.user
+*.suo
+
+# CMake artifacts
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+*.vcxproj*
+*.sln
+
+# Node / VitePress
+node_modules/
+docs/.vitepress/dist/
+docs/.vitepress/cache/
+npm-debug.log*
+
+# OS artifacts
+Thumbs.db
+Desktop.ini
+.DS_Store

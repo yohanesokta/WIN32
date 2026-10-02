@@ -1,0 +1,475 @@
+
+Yang paling terasa kurang adalah **praktik langsung setelah konsep dasar**.
+
+### Yang wajib ditambahkan
+
+#### 1. `WM_PAINT` dan menggambar window
+
+Ini menurutku harus jadi chapter besar setelah Message Loop.
+
+```text
+04. Painting & Rendering Dasar
+├── 01. WM_PAINT
+├── 02. BeginPaint & EndPaint
+├── 03. PAINTSTRUCT
+├── 04. HDC
+├── 05. TextOutW
+├── 06. FillRect
+├── 07. Rectangle / Ellipse
+└── 08. InvalidateRect
+```
+
+Ini penting karena nanti saat masuk custom titlebar, user perlu memahami **client area sebenarnya digambar oleh siapa**.
+
+---
+
+#### 2. Window lifecycle
+
+Saat ini Agy punya "4 fase siklus hidup", tapi sebaiknya dibuat chapter praktik:
+
+```text
+WM_CREATE
+WM_SIZE
+WM_MOVE
+WM_PAINT
+WM_CLOSE
+WM_DESTROY
+WM_NCDESTROY
+```
+
+Lalu buat diagram:
+
+```text
+CreateWindowExW
+      ↓
+   WM_NCCREATE
+      ↓
+   WM_CREATE
+      ↓
+   WM_SIZE
+      ↓
+   WM_PAINT
+      ↓
+      ...
+      ↓
+   WM_CLOSE
+      ↓
+ WM_DESTROY
+      ↓
+WM_NCDESTROY
+```
+
+Ini bakal sangat membantu ketika nanti masuk DWM/non-client area.
+
+---
+
+#### 3. `WPARAM` dan `LPARAM` jangan cuma teori
+
+Buat latihan seperti:
+
+```cpp
+case WM_MOUSEMOVE:
+{
+    int x = GET_X_LPARAM(lParam);
+    int y = GET_Y_LPARAM(lParam);
+}
+break;
+```
+
+Lalu:
+
+```cpp
+case WM_KEYDOWN:
+{
+    if (wParam == VK_ESCAPE)
+    {
+        PostQuitMessage(0);
+    }
+}
+break;
+```
+
+Jadi pembaca memahami bahwa:
+
+```text
+WPARAM
+LPARAM
+```
+
+bukan sekadar "tipe data aneh dari Windows", tetapi memang digunakan membawa data event.
+
+---
+
+### 4. Keyboard & Mouse
+
+Ini sebaiknya menjadi section tersendiri.
+
+```text
+04. Input
+├── Keyboard
+│   ├── WM_KEYDOWN
+│   ├── WM_KEYUP
+│   ├── WM_CHAR
+│   └── Virtual-Key Codes
+│
+└── Mouse
+    ├── WM_MOUSEMOVE
+    ├── WM_LBUTTONDOWN
+    ├── WM_LBUTTONUP
+    ├── WM_RBUTTONDOWN
+    ├── WM_MOUSEWHEEL
+    └── GET_X_LPARAM / GET_Y_LPARAM
+```
+
+Lalu bikin mini-project:
+
+> Mouse Position Viewer
+
+Window menampilkan:
+
+```text
+Mouse X: 532
+Mouse Y: 281
+```
+
+Ini jauh lebih bagus untuk belajar daripada hanya membaca dokumentasi.
+
+---
+
+### 5. Window Style & Window Flag
+
+Ini **sangat penting sebelum DWM**.
+
+Buat:
+
+```text
+05. Window Styles
+├── WS_OVERLAPPEDWINDOW
+├── WS_POPUP
+├── WS_CHILD
+├── WS_VISIBLE
+├── WS_BORDER
+├── WS_THICKFRAME
+├── WS_CAPTION
+├── WS_SYSMENU
+├── WS_MINIMIZEBOX
+└── WS_MAXIMIZEBOX
+```
+
+Dan extended styles:
+
+```text
+WS_EX_APPWINDOW
+WS_EX_TOOLWINDOW
+WS_EX_TOPMOST
+WS_EX_LAYERED
+WS_EX_NOACTIVATE
+```
+
+Kemudian jelaskan:
+
+```cpp
+WS_OVERLAPPEDWINDOW
+```
+
+sebenarnya merupakan kombinasi beberapa flag.
+
+Ini nanti langsung kepakai untuk:
+
+```cpp
+WS_POPUP
+```
+
+ketika membuat frameless window.
+
+---
+
+### 6. Client Area vs Non-client Area
+
+**Ini wajib sebelum DWM.**
+
+Buat chapter khusus:
+
+```text
+Client Area
+       │
+       ├── Content
+       └── WM_PAINT
+       
+Non-client Area
+       │
+       ├── Title Bar
+       ├── Border
+       ├── Resize Area
+       └── System Buttons
+```
+
+Lalu kenalkan:
+
+```text
+WM_NCCALCSIZE
+WM_NCHITTEST
+WM_NCPAINT
+WM_NCACTIVATE
+```
+
+Tidak perlu langsung mendalam, tapi pembaca harus tahu konsepnya.
+
+---
+
+### 7. Window positioning & sizing
+
+Buat latihan:
+
+```cpp
+SetWindowPos()
+MoveWindow()
+GetWindowRect()
+GetClientRect()
+AdjustWindowRectEx()
+```
+
+dan jelaskan perbedaan:
+
+```text
+Window Rectangle
+       vs
+Client Rectangle
+```
+
+Ini **sangat penting** untuk custom titlebar dan DPI.
+
+---
+
+### 8. DPI Awareness
+
+Jangan terlalu jauh menunggu sampai akhir.
+
+Minimal:
+
+```text
+Per-Monitor DPI
+DPI Awareness
+GetDpiForWindow()
+AdjustWindowRectExForDpi()
+WM_DPICHANGED
+```
+
+Buat contoh:
+
+> Jalankan window, pindahkan ke monitor dengan scaling berbeda, lalu lihat ukuran window berubah.
+
+Kalau ini dilewati, custom UI Win32 sering terlihat "benar di laptop sendiri" tapi kacau di monitor lain.
+
+---
+
+### 9. Resources
+
+Tambahkan:
+
+```text
+Resources
+├── .rc file
+├── Application Icon
+├── Cursor
+├── Manifest
+├── Version Information
+└── Resource ID
+```
+
+Contoh:
+
+```text
+app.rc
+resource.h
+app.ico
+```
+
+Ini akan berguna ketika final project sudah menjadi aplikasi Windows sungguhan.
+
+---
+
+### 10. Timer
+
+Sederhana tapi penting:
+
+```cpp
+SetTimer()
+KillTimer()
+WM_TIMER
+```
+
+Buat mini-project:
+
+> Digital Clock
+
+Misalnya window menampilkan:
+
+```text
+02:47:31
+```
+
+Kemudian timer mengirim update setiap 1 detik.
+
+---
+
+### 11. Dialog & Controls
+
+Tidak perlu terlalu dalam, tetapi minimal:
+
+```text
+MessageBoxW
+CreateWindowExW("BUTTON")
+CreateWindowExW("EDIT")
+CreateWindowExW("STATIC")
+```
+
+Lalu:
+
+```text
+WM_COMMAND
+BN_CLICKED
+EN_CHANGE
+```
+
+Mini-project:
+
+> Win32 Settings Window
+
+---
+
+### 12. GDI → Direct2D
+
+Karena tujuanmu akhirnya UI modern, menurutku jangan berhenti di GDI.
+
+Urutannya:
+
+```text
+GDI
+ ↓
+HDC
+ ↓
+BitBlt
+ ↓
+Double Buffering
+ ↓
+Direct2D
+ ↓
+ID2D1Factory
+ ↓
+ID2D1RenderTarget
+ ↓
+Brush
+ ↓
+Text
+```
+
+Tidak perlu menjadi tutorial Direct2D super lengkap. Cukup sampai pembaca mengerti:
+
+> "Kalau ingin menggambar UI custom dengan lebih serius, Direct2D mulai masuk akal."
+
+---
+
+## Baru setelah itu masuk DWM
+
+Aku akan menyusun bagian DWM seperti:
+
+```text
+10. Memahami DWM
+├── 01. Apa sebenarnya DWM?
+├── 02. Compositor Windows
+├── 03. Client vs Non-client
+├── 04. DWM Frame
+├── 05. DwmExtendFrameIntoClientArea
+├── 06. DwmSetWindowAttribute
+├── 07. Dark Mode
+├── 08. Window Corner
+├── 09. Backdrop
+└── 10. DWM Debugging
+```
+
+Kemudian:
+
+```text
+11. Frameless Window
+├── WS_POPUP
+├── Menghilangkan titlebar
+├── WM_NCCALCSIZE
+├── WM_NCHITTEST
+├── Dragging
+├── Resizing
+├── Minimize
+├── Maximize
+└── Close
+```
+
+Dan baru:
+
+```text
+12. Custom Title Bar
+├── Title
+├── Icon
+├── Minimize button
+├── Maximize button
+├── Close button
+├── Hover state
+├── Pressed state
+├── Double click
+└── System menu
+```
+
+---
+
+## Satu hal lagi yang menurutku sangat penting
+
+Suruh Agy membuat **"checkpoint project"** setiap beberapa bab.
+
+Contohnya:
+
+```text
+examples/
+├── 01-hello-world/
+├── 02-window-class/
+├── 03-message-loop/
+├── 04-painting/
+├── 05-keyboard/
+├── 06-mouse/
+├── 07-window-style/
+├── 08-dpi/
+├── 09-gdi/
+├── 10-dwm/
+├── 11-frameless/
+└── 12-custom-titlebar/
+```
+
+Jadi dokumentasi bukan cuma:
+
+> baca → baca → baca → baca
+
+tetapi:
+
+> baca → coding → build → eksperimen → lanjut.
+
+### Dan tambahkan satu aturan ke prompt Agy:
+
+> **Jangan memperkenalkan abstraction/framework sebelum pembaca memahami API Win32 mentah yang mendasarinya.**
+
+Misalnya jangan langsung:
+
+```cpp
+Window window;
+window.show();
+```
+
+Tetapi pembaca harus terlebih dahulu pernah menulis:
+
+```cpp
+RegisterClassExW(...);
+CreateWindowExW(...);
+ShowWindow(...);
+UpdateWindow(...);
+```
+
+Baru setelah itu boleh dibuat helper/class.
+
+Dengan begitu, ketika nanti kamu belajar DWM dan melihat kode seperti `DwmExtendFrameIntoClientArea()` atau `WM_NCHITTEST`, kamu **benar-benar tahu window yang sedang dimodifikasi itu dibuat dan bekerja bagaimana**, bukan cuma copy-paste snippet dari Stack Overflow.
