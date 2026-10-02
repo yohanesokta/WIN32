@@ -82,11 +82,14 @@ Roadmap ini dirancang secara sistematis agar siapa pun yang baru belajar dapat m
 * [Keyboard Input](/04-input/01-keyboard) — Menangkap `WM_KEYDOWN`, `WM_KEYUP`, `WM_CHAR`, dan Virtual Key Codes.
 * [Mouse Input & Tracking](/04-input/02-mouse) — Membaca koordinat mouse (`GET_X_LPARAM`, `GET_Y_LPARAM`), klik kiri/kanan, dan `SetCapture`.
 
-### 05. Rendering & Grafis (GDI)
+### 05. Rendering, Grafis & UI Layout
 * [WM_PAINT & Device Context (HDC)](/05-rendering/01-hdc-dan-paint) — Siklus gambar ulang, pasangan wajib `BeginPaint` / `EndPaint`, dan `InvalidateRect`.
 * [Menggambar Bentuk, Teks & Warna](/05-rendering/02-gdi-dasar) — Pena (`HPEN`), Kuas (`HBRUSH`), Font Segoe UI, dan pencegahan GDI memory leak.
 * [Timer & Animasi di Win32](/05-rendering/03-timer-dan-animasi) — Membuat pergerakan dinamis via `SetTimer`, `KillTimer`, dan pesan `WM_TIMER`.
 * [Double Buffering (Mencegah Flicker)](/05-rendering/04-double-buffering) — Menggambar off-screen menggunakan Memory DC dan `BitBlt` 60 FPS.
+* [Semua Tool GDI & Gradasi](/05-rendering/05-semua-tool-gdi) — Stock Objects, arsir Hatch Brushes, `GradientFill` via `msimg32`, pengukuran teks `GetTextExtentPoint32W`, dan `SaveDC`/`RestoreDC`.
+* [Clipping & Regions (HRGN)](/05-rendering/06-clipping-dan-region) — Mencegah warna meluber ke luar kartu, `CreateRoundRectRgn`, `SelectClipRgn`, dan `CombineRgn`.
+* [Arsitektur Layouting & Custom Widgets](/05-rendering/07-arsitektur-layouting-dan-widgets) — Windowless widget system, box model di C++, layout responsif `WM_SIZE`, custom button, slider, dan toggle switch.
 
 ### 06. DPI Awareness & Multi-Monitor
 * [Per-Monitor V2 DPI Awareness](/06-dpi/01-per-monitor-dpi) — Solusi agar tampilan teks dan UI tidak buram di layar 4K/High-DPI dan penanganan `WM_DPICHANGED`.

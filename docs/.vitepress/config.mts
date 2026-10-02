@@ -65,13 +65,16 @@ export default defineConfig({
         ]
       },
       {
-        text: '05. Rendering & Grafis (GDI)',
+        text: '05. Rendering, Grafis & UI Layout',
         collapsed: false,
         items: [
           { text: 'WM_PAINT & Device Context (HDC)', link: '/05-rendering/01-hdc-dan-paint' },
           { text: 'Menggambar Bentuk, Teks & Warna', link: '/05-rendering/02-gdi-dasar' },
           { text: 'Timer & Animasi di Win32', link: '/05-rendering/03-timer-dan-animasi' },
-          { text: 'Double Buffering (Mencegah Flicker)', link: '/05-rendering/04-double-buffering' }
+          { text: 'Double Buffering (Mencegah Flicker)', link: '/05-rendering/04-double-buffering' },
+          { text: 'Semua Tool GDI & Gradasi (msimg32)', link: '/05-rendering/05-semua-tool-gdi' },
+          { text: 'Clipping & Regions (HRGN)', link: '/05-rendering/06-clipping-dan-region' },
+          { text: 'Arsitektur Layouting & Custom Widgets', link: '/05-rendering/07-arsitektur-layouting-dan-widgets' }
         ]
       },
       {
